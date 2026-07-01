@@ -1,0 +1,126 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── 1. Build & typecheck backend ──────────────────────────────────────────
+  backend:
+    name: Backend — Build & Typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload backend dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-dist
+          path: backend/dist/
+          retention-days: 1
+
+  # ── 2. Build frontend ─────────────────────────────────────────────────────
+  frontend:
+    name: Frontend — Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://balaji-fleet-backend.onrender.com' }}
+          VITE_SOCKET_URL: ${{ secrets.VITE_SOCKET_URL || 'https://balaji-fleet-backend.onrender.com' }}
+          VITE_APP_NAME: Balaji Fleet Tracker
+          VITE_COMPANY_NAME: Balaji Readymix
+        run: npm run build
+
+      - name: Upload frontend dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+          retention-days: 1
+
+  # ── 3. Deploy frontend to Vercel ──────────────────────────────────────────
+  deploy-frontend:
+    name: Deploy Frontend → Vercel
+    needs: frontend
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download frontend dist
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          cd frontend
+          vercel deploy --prod --token=$VERCEL_TOKEN \
+            --build-env VITE_API_URL=${{ secrets.VITE_API_URL || 'https://balaji-fleet-backend.onrender.com' }} \
+            --build-env VITE_SOCKET_URL=${{ secrets.VITE_SOCKET_URL || 'https://balaji-fleet-backend.onrender.com' }} \
+            --yes 2>&1
+
+  # ── 4. Keep Render backend alive (ping every 14 min) ──────────────────────
+  keepalive:
+    name: Keep Backend Warm
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [backend, frontend]
+    steps:
+      - name: Ping health endpoint
+        run: |
+          sleep 30
+          curl -sf https://balaji-fleet-backend.onrender.com/health || echo "Backend warming up (first deploy)"
