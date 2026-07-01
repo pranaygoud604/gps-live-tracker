@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0f172a"/>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1d4ed8"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="truck" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#bfdbfe"/>
+    </linearGradient>
+  </defs>
+  <!-- Truck body -->
+  <rect x="80" y="260" width="280" height="120" rx="16" fill="url(#truck)"/>
+  <!-- Truck cab -->
+  <path d="M280 260 L360 260 L400 300 L400 380 L280 380 Z" fill="url(#truck)" opacity="0.9"/>
+  <!-- Windows -->
+  <rect x="100" y="280" width="160" height="60" rx="8" fill="#1e40af" opacity="0.6"/>
+  <rect x="295" y="275" width="85" height="55" rx="8" fill="#1e40af" opacity="0.6"/>
+  <!-- Wheels -->
+  <circle cx="160" cy="390" r="36" fill="#0f172a"/>
+  <circle cx="160" cy="390" r="22" fill="#334155"/>
+  <circle cx="160" cy="390" r="10" fill="#60a5fa"/>
+  <circle cx="340" cy="390" r="36" fill="#0f172a"/>
+  <circle cx="340" cy="390" r="22" fill="#334155"/>
+  <circle cx="340" cy="390" r="10" fill="#60a5fa"/>
+  <!-- GPS signal -->
+  <circle cx="256" cy="130" r="20" fill="#10b981"/>
+  <circle cx="256" cy="130" r="12" fill="white"/>
+  <path d="M220 100 Q256 60 292 100" stroke="#10b981" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M196 76 Q256 20 316 76" stroke="#10b981" stroke-width="6" fill="none" opacity="0.6" stroke-linecap="round"/>
+  <!-- Signal line -->
+  <line x1="256" y1="150" x2="256" y2="255" stroke="#10b981" stroke-width="6" stroke-dasharray="10 6" opacity="0.7"/>
+</svg>

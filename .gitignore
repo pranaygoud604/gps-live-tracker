@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+backend/dist/
+frontend/dist/
+
+# Environment files — keep example, ignore real secrets
+.env
+.env.local
+.env.production
+.env.development
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Android build outputs (large, reproducible)
+android-driver/android/.gradle/
+android-driver/android/app/build/
+android-driver/android/build/
+android-admin/android/.gradle/
+android-admin/android/app/build/
+android-admin/android/build/
+
+# Keystores — DO NOT COMMIT (back up separately)
+*.keystore
+*.jks
+
+# APK files (distribute separately)
+*.apk
+*.aab
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+*.suo
+*.user
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Capacitor
+android-driver/android/app/src/main/assets/public/
+android-admin/android/app/src/main/assets/public/

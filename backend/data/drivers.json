@@ -1,0 +1,74 @@
+{
+  "drivers": [
+    {
+      "id": "drv001",
+      "name": "Rajesh Kumar",
+      "vehicleNumber": "AP09AB1234",
+      "phone": "9876543210",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv002",
+      "name": "Suresh Reddy",
+      "vehicleNumber": "AP09CD5678",
+      "phone": "9876543211",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv003",
+      "name": "Venkatesh Rao",
+      "vehicleNumber": "AP09EF9012",
+      "phone": "9876543212",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv004",
+      "name": "Naresh Babu",
+      "vehicleNumber": "TS09GH3456",
+      "phone": "9876543213",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv005",
+      "name": "Ramesh Prasad",
+      "vehicleNumber": "TS09IJ7890",
+      "phone": "9876543214",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv006",
+      "name": "Srinivas Yadav",
+      "vehicleNumber": "TS09KL1234",
+      "phone": "9876543215",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv007",
+      "name": "Krishna Murthy",
+      "vehicleNumber": "AP09MN5678",
+      "phone": "9876543216",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv008",
+      "name": "Lakshman Rao",
+      "vehicleNumber": "AP09OP9012",
+      "phone": "9876543217",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv009",
+      "name": "Manjunath Reddy",
+      "vehicleNumber": "KA05QR3456",
+      "phone": "9876543218",
+      "password": "Driver@123"
+    },
+    {
+      "id": "drv010",
+      "name": "Ravi Shankar",
+      "vehicleNumber": "KA05ST7890",
+      "phone": "9876543219",
+      "password": "Driver@123"
+    }
+  ]
+}
