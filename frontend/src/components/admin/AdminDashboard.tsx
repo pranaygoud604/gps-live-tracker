@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, LogOut, Menu, X, Bell, RefreshCw, PanelRightOpen, PanelRightClose } from 'lucide-react';
+import { Search, LogOut, Menu, X, Bell, RefreshCw, PanelRightOpen, PanelRightClose, Users } from 'lucide-react';
 import { useSocket } from '@/hooks/useSocket';
 import { useAuthStore } from '@/store/authStore';
 import { useDriverStore, useFilteredSessions } from '@/store/driverStore';
@@ -9,6 +9,7 @@ import { DriverCard } from './DriverCard';
 import { StatsPanel } from './StatsPanel';
 import { ActivityFeed } from './ActivityFeed';
 import { ConnectionStatus } from '@/components/shared/ConnectionStatus';
+import { ManageDriversModal } from './ManageDriversModal';
 import { DriverSession, ActivityEvent, FleetStats } from '@/types';
 
 export function AdminDashboard() {
@@ -32,6 +33,7 @@ export function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [lastRefresh, setLastRefresh] = useState(new Date());
   const [emergencyAlerts, setEmergencyAlerts] = useState<ActivityEvent[]>([]);
+  const [showManageDrivers, setShowManageDrivers] = useState(false);
 
   const handleDriverListEvent = useCallback(
     (data: { sessions: DriverSession[]; stats: FleetStats; activityLog: ActivityEvent[] }) => {
@@ -132,6 +134,8 @@ export function AdminDashboard() {
 
   return (
     <div className="h-dvh bg-surface-900 flex flex-col overflow-hidden">
+      <ManageDriversModal open={showManageDrivers} onClose={() => setShowManageDrivers(false)} />
+
       {/* Emergency alerts */}
       <div className="fixed top-4 right-4 z-[9999] space-y-2 pointer-events-none">
         <AnimatePresence>
@@ -185,6 +189,15 @@ export function AdminDashboard() {
           {/* Right controls */}
           <div className="flex items-center gap-2">
             <ConnectionStatus status={status} quality={connectionQuality} compact />
+
+            <button
+              onClick={() => setShowManageDrivers(true)}
+              className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-brand-600/20 border border-brand-500/30 text-brand-400 hover:bg-brand-600/30 hover:text-brand-300 transition-colors text-xs font-medium"
+              title="Manage Drivers"
+            >
+              <Users size={12} />
+              <span className="hidden sm:inline">Drivers</span>
+            </button>
 
             <button
               onClick={handleRefresh}

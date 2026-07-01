@@ -3,4 +3,7 @@ export declare function getDrivers(_req: Request, res: Response): void;
 export declare function getOnlineDrivers(_req: Request, res: Response): void;
 export declare function getStats(_req: Request, res: Response): void;
 export declare function getDriverList(_req: Request, res: Response): void;
+export declare function createDriver(req: Request, res: Response): Promise<void>;
+export declare function updateDriver(req: Request, res: Response): Promise<void>;
+export declare function deleteDriver(req: Request, res: Response): void;
 //# sourceMappingURL=driverController.d.ts.map

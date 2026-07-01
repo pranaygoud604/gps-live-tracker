@@ -98,3 +98,10 @@ export interface SocketStatus {
 export type ConnectionQuality = 'excellent' | 'good' | 'poor' | 'offline';
 
 export type MapViewMode = 'roadmap' | 'satellite' | 'hybrid';
+
+export interface RegisteredDriver {
+  id: string;
+  name: string;
+  vehicleNumber: string;
+  phone: string;
+}

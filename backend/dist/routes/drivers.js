@@ -10,5 +10,8 @@ router.get('/', driverController_1.getDrivers);
 router.get('/online', driverController_1.getOnlineDrivers);
 router.get('/stats', driverController_1.getStats);
 router.get('/list', driverController_1.getDriverList);
+router.post('/', driverController_1.createDriver);
+router.put('/:id', driverController_1.updateDriver);
+router.delete('/:id', driverController_1.deleteDriver);
 exports.default = router;
 //# sourceMappingURL=drivers.js.map

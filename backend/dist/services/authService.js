@@ -91,6 +91,36 @@ class AuthService {
     getAllDrivers() {
         return Array.from(this.drivers.values()).map(({ password: _p, passwordHash: _h, ...rest }) => rest);
     }
+    async createDriver(data) {
+        const vehicleNumber = data.vehicleNumber.toUpperCase().trim();
+        if (this.drivers.has(vehicleNumber))
+            throw new Error(`Vehicle ${vehicleNumber} already registered`);
+        const id = `drv_${Date.now()}`;
+        const passwordHash = await bcryptjs_1.default.hash(data.password, 12);
+        this.drivers.set(vehicleNumber, { id, name: data.name.trim(), vehicleNumber, phone: data.phone.trim(), password: data.password, passwordHash });
+        return { id, name: data.name.trim(), vehicleNumber, phone: data.phone.trim() };
+    }
+    async updateDriver(id, data) {
+        const entry = Array.from(this.drivers.values()).find((d) => d.id === id);
+        if (!entry)
+            return null;
+        if (data.name)
+            entry.name = data.name.trim();
+        if (data.phone)
+            entry.phone = data.phone.trim();
+        if (data.password) {
+            entry.password = data.password;
+            entry.passwordHash = await bcryptjs_1.default.hash(data.password, 12);
+        }
+        return { id: entry.id, name: entry.name, vehicleNumber: entry.vehicleNumber, phone: entry.phone };
+    }
+    deleteDriver(id) {
+        const entry = Array.from(this.drivers.values()).find((d) => d.id === id);
+        if (!entry)
+            return false;
+        this.drivers.delete(entry.vehicleNumber);
+        return true;
+    }
 }
 exports.authService = new AuthService();
 //# sourceMappingURL=authService.js.map
