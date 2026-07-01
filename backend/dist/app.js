@@ -30,7 +30,8 @@ const corsOriginFn = (origin, cb) => {
         return cb(null, true);
     const allowed = config_1.config.corsOrigins.some((o) => o === origin) ||
         /\.vercel\.app$/.test(origin) ||
-        /localhost:\d+$/.test(origin);
+        /localhost(:\d+)?$/.test(origin) ||
+        /^capacitor:\/\/localhost/.test(origin);
     cb(allowed ? null : new Error(`CORS: ${origin} not allowed`), allowed);
 };
 app.use((0, cors_1.default)({
